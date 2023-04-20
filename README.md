@@ -1,4 +1,4 @@
-![Sms77.io Logo](https://www.sms77.io/wp-content/uploads/2019/07/sms77-Logo-400x79.png "Sms77.io Logo")
+![](https://www.seven.io/wp-content/uploads/Logo.svg "seven Logo")
 
 # Official Agent for [Active Workflow](https://github.com/automaticmode/active_workflow)
 
@@ -19,21 +19,21 @@ even though the agent interface might not reflect that.
 **Create a new user credential**
 
 The API key can alternatively be stored as environment variable 
-SMS77_API_KEY on the Flask server. In this case you can go on to the next step.
+SEVEN_API_KEY on the Flask server. In this case you can go on to the next step.
 
 
 Go to /user_credentials/new
 
-Credential Name: sms77_api_key
+Credential Name: seven_api_key
 
-Credential Value: Your API key from Sms77.io
+Credential Value: Your API key from seven.io
 ![Screenshot: Create User Credential](screenshots/create_credential.png "Screenshot: Create User Credential")
 
 **Create a new agent**
 
 Create a new agent with options in the format of:
 ![Screenshot: Create Agent](screenshots/create_agent.png "Screenshot: Create Agent")
-The option apiKey may also be defined as environment variable SMS77_API_KEY.
+The option apiKey may also be defined as environment variable SEVEN_API_KEY.
 
 ### Development
 **Start Flask:**
@@ -46,8 +46,8 @@ The option apiKey may also be defined as environment variable SMS77_API_KEY.
 
 
 #### Support
-Need help? Feel free to [contact us](https://www.sms77.io/en/company/contact/).
+Need help? Feel free to [contact us](https://www.seven.io/en/company/contact/).
 
 
 ##### License
-[![MIT](https://img.shields.io/badge/License-MIT-teal.svg)](./LICENSE)
+[![MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)

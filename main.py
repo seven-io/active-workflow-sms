@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def handle():
-    return handle_agent(Sms77SmsAgent, request)
+    return handle_agent(SevenSmsAgent, request)
 
 
 def handle_agent(cls, req):
@@ -32,7 +32,7 @@ def handle_agent(cls, req):
     return jsonify(response)
 
 
-class Sms77SmsAgent:
+class SevenSmsAgent:
     def __init__(self, params):
         """Set some convenience variables.
         Object is created from scratch on each method invocation"""
@@ -47,7 +47,7 @@ class Sms77SmsAgent:
         return {
             'result': {
                 'default_options': {
-                    'apiKey': '{% credential sms77_api_key %}',
+                    'apiKey': '{% credential seven_api_key %}',
                     'debug': False,
                     'delay': None,
                     'flash': False,
@@ -63,9 +63,9 @@ class Sms77SmsAgent:
                     'unicode': False,
                     'utf8': False,
                 },
-                'description': 'Agent to send SMS via Sms77.io.',
-                'display_name': 'Sms77 SMS Agent',
-                'name': 'Sms77SmsAgent',
+                'description': 'Agent to send SMS via seven.io.',
+                'display_name': 'seven SMS Agent',
+                'name': 'SevenSmsAgent',
             }
         }
 
@@ -100,7 +100,7 @@ class Sms77SmsAgent:
         payload.pop('return_msg_id', None)
         payload['json'] = 1
 
-        api_key = payload.pop('apiKey', os.getenv('SMS77_API_KEY'))
+        api_key = payload.pop('apiKey', os.getenv('SEVEN_API_KEY'))
         if api_key is None:
             errors.append('Missing API key')
 
