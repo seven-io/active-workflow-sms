@@ -1,54 +1,93 @@
-<img src="https://www.seven.io/wp-content/uploads/Logo.svg" width="250" />
+<p align="center">
+  <img src="https://www.seven.io/wp-content/uploads/Logo.svg" width="250" alt="seven logo" />
+</p>
 
+<h1 align="center">seven SMS for Active Workflow</h1>
 
-# Official Agent for [Active Workflow](https://github.com/automaticmode/active_workflow)
+<p align="center">
+  Official remote agent for <a href="https://github.com/automaticmode/active_workflow">Active Workflow</a> that sends SMS via the seven gateway.
+</p>
 
-Custom agent using the remote API from Active Workflow. 
-Please notice that scheduling does nothing 
-even though the agent interface might not reflect that.
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-teal.svg" alt="MIT License" /></a>
+  <img src="https://img.shields.io/badge/Active%20Workflow-remote%20agent-blue" alt="Active Workflow remote agent" />
+  <img src="https://img.shields.io/badge/Python-3.8%2B-yellow" alt="Python 3.8+" />
+</p>
 
+---
+
+## Features
+
+- **Send SMS** - Trigger SMS messages from any Active Workflow scenario via the remote agent API
+- **Credential or Env Auth** - Pass the API key as user credential or as `SEVEN_API_KEY` environment variable
+- **Self-hosted Flask service** - Runs alongside your Active Workflow instance with no external dependencies
+
+> **Note:** The Active Workflow remote-agent API does not support scheduling. The agent UI may show scheduling options - they are intentionally non-functional.
+
+## Prerequisites
+
+- Python 3.8+
+- An Active Workflow instance reachable from the agent host
+- A [seven account](https://www.seven.io/) with API key ([How to get your API key](https://help.seven.io/en/developer/where-do-i-find-my-api-key))
 
 ## Installation
-**Start Flask:**
 
-`python3.8 main.py`
+### 1. Clone and start the Flask agent
 
-**Expose remote agent URL in environment**
+```bash
+git clone https://github.com/seven-io/active-workflow-sms.git
+cd active-workflow-sms
+pip install -r requirements.txt
+python3.8 main.py
+```
 
-`export REMOTE_AGENT_URL="http://localhost:5000/"`
+The agent listens on `http://localhost:5000/`.
 
-**Create a new user credential**
+### 2. Expose the agent URL to Active Workflow
 
-The API key can alternatively be stored as environment variable 
-SEVEN_API_KEY on the Flask server. In this case you can go on to the next step.
+```bash
+export REMOTE_AGENT_URL="http://localhost:5000/"
+```
 
+### 3. Run Active Workflow
 
-Go to /user_credentials/new
+```bash
+docker run --network host \
+  -e REMOTE_AGENT_URL=$REMOTE_AGENT_URL \
+  -p 3000:3000 --rm \
+  -v aw-data:/var/lib/postgresql/11/main \
+  automaticmode/active_workflow
+```
 
-Credential Name: seven_api_key
+## Configuration
 
-Credential Value: Your API key from seven.io
-![Screenshot: Create User Credential](screenshots/create_credential.png "Screenshot: Create User Credential")
+### Option A: User credential
 
-**Create a new agent**
+In Active Workflow open `/user_credentials/new` and create:
 
-Create a new agent with options in the format of:
-![Screenshot: Create Agent](screenshots/create_agent.png "Screenshot: Create Agent")
-The option apiKey may also be defined as environment variable SEVEN_API_KEY.
+| Field | Value |
+|-------|-------|
+| Credential Name | `seven_api_key` |
+| Credential Value | Your seven API key |
 
-### Development
-**Start Flask:**
+![Create User Credential](screenshots/create_credential.png)
 
-`python3.8 main.py`
+### Option B: Environment variable
 
-**Start Active Workflow:**
+Set `SEVEN_API_KEY` on the host running `main.py` and skip the credential step entirely.
 
-`docker run --network host -e REMOTE_AGENT_URL=$REMOTE_AGENT_URL -p 3000:3000 --rm -v aw-data:/var/lib/postgresql/11/main automaticmode/active_workflow`
+## Usage
 
+Create a new agent in Active Workflow and pick the seven SMS agent type. The minimum option set is:
 
-#### Support
-Need help? Feel free to [contact us](https://www.seven.io/en/company/contact/).
+![Create Agent](screenshots/create_agent.png)
 
+`apiKey` may also be omitted if `SEVEN_API_KEY` is exported on the agent host.
 
-##### License
-[![MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
+## Support
+
+Need help? Feel free to [contact us](https://www.seven.io/en/company/contact/) or [open an issue](https://github.com/seven-io/active-workflow-sms/issues).
+
+## License
+
+[MIT](LICENSE)
